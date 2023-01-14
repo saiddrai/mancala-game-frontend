@@ -1,8 +1,12 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./Modal";
+import axios from "axios";
+import { parse, stringify, toJSON, fromJSON } from "flatted";
 
 function App() {
+  const { parse, stringify, toJSON, fromJSON } = require("flatted");
+
   const [player1, setPlayer1] = useState({
     A: 4,
     B: 4,
@@ -12,12 +16,12 @@ function App() {
     F: 4,
   });
   const [player2, setPlayer2] = useState({
-    A: 4,
-    B: 4,
-    C: 4,
-    D: 4,
-    E: 4,
-    F: 4,
+    G: 4,
+    H: 4,
+    I: 4,
+    J: 4,
+    K: 4,
+    L: 4,
   });
 
   const [store1, setStore1] = useState(0);
@@ -29,38 +33,34 @@ function App() {
 
   const [winner, setWinner] = useState(0);
 
-  const onClick = (fosse) => {
-    // send the fosse to the server
-    // get the response of all the states
-    // update the states
-    fetch("http://localhost:5000/mancala", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+  useEffect(() => {}, []);
+
+  const onPlay = (fosse) => {
+    const data = {
+      player: turn,
+      fosse: fosse,
+      player1: player1,
+      player2: player2,
+      store1: store1,
+      store2: store2,
+      gameOver: gameOver,
+      winner: winner,
+    };
+    console.log(fosse);
+    axios
+      .post("http://localhost:5000/mancala", {
+        player: turn,
         fosse: fosse,
-        turn: turn,
         player1: player1,
         player2: player2,
         store1: store1,
         store2: store2,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // update states
-        setPlayer1(data.player1);
-        setPlayer2(data.player2);
-        // update stores
-        setStore1(data.store1);
-        setStore2(data.store2);
-        // update turn
-        setTurn(data.turn);
-        // update game over
-        setGameOver(data.gameOver);
-        // update winner
-        setWinner(data.winner);
+        gameOver: gameOver,
+        winner: winner,
+      })
+      .then((response) => {})
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -75,19 +75,39 @@ function App() {
         <div className=" bg-lightwood rounded-xl px-4 py-2  m-auto flex flex-row items-center justify-between  w-full h-full">
           <div className={` ${storeStyle} mb-10 `}>{store1}</div>
           <div className="h-full flex flex-col  items-center justify-between  ">
-            <div className="flex flex-col">
-              <ul className={playerSideStyle}>
-                {Object.values(player2).map((fosse) => (
-                  <il>
-                    <button className={fosseStyle}>{fosse}</button>
-                  </il>
-                ))}
+            <div className="flex flex-row ">
+              <ul className="space-x-2 flex flex-row">
+                {Object.keys(player1).map((fosse, i) => {
+                  return (
+                    <li key={i}>
+                      <button
+                        onClick={() => onPlay(fosse)}
+                        key={i}
+                        className={fosseStyle}
+                      >
+                        {player1[fosse]}
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
-            <div className={playerSideStyle}>
-              {Object.values(player1).map((fosse) => {
-                return <button className={fosseStyle}>{fosse}</button>;
-              })}
+            <div className="flex flex-row ">
+              <ul className="space-x-2 flex flex-row ">
+                {Object.keys(player2).map((fosse, i) => {
+                  return (
+                    <li key={i}>
+                      <button
+                        onClick={() => onPlay(fosse)}
+                        key={i}
+                        className={fosseStyle}
+                      >
+                        {player2[fosse]}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </div>
           <div className={` ${storeStyle} mt-10 `}>{store2} </div>
