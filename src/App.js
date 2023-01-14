@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState } from "react";
+import Modal from "./Modal";
 
 function App() {
   const [player1, setPlayer1] = useState({
@@ -92,6 +93,7 @@ function App() {
           <div className={` ${storeStyle} mt-10 `}>{store2} </div>
         </div>
       </div>
+      <Modal />
     </div>
   );
 }
