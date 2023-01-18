@@ -1,26 +1,6 @@
 import math
 from copy import deepcopy
-import pygame
-
-# Convert the mouse position to a pit index (A, B, C, etc.)
-def getPitFromPos(pos):
-    pit_index = None
-    # Check if the mouse position is within the bounds of a pit
-    if (335 - 55 <= pos[0] <= 335+55) and (500-55 <= pos[1] <= 500+55):
-        pit_index = "A"
-    elif (460 - 55 <= pos[0] <= 460 + 55) and (500-55 <= pos[1] <= 500+55):
-        pit_index = "B"
-    elif (585 - 55 <= pos[0] <= 585 + 55) and (500-55 <= pos[1] <= 500+55):
-        pit_index = "C"
-    elif (710 - 55 <= pos[0] <= 710 + 55) and (500-55 <= pos[1] <= 500+55):
-        pit_index = "D"
-    elif (835 - 55 <= pos[0] <= 835 + 55) and (500-55 <= pos[1] <= 500+55):
-        pit_index = "E"
-    elif (960 - 55 <= pos[0] <= 960 + 55) and (500-55 <= pos[1] <= 500+55):
-        pit_index = "F"
-    return pit_index
-
-
+import time
 class Play:
     # def __init__(self):
 
@@ -30,23 +10,16 @@ class Play:
         
         # Exécuter la boucle jusqu'à ce qu'un coup valide soit joué
         while not move_made:
-            # Attendre l'entrée de l'utilisateur
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONUP:
-                    # Obtenir la position du clic de souris
-                    pos = pygame.mouse.get_pos()
-                    # Convertir la position de la souris en un index de fosse (A, B, C, etc.)
-                    pit = getPitFromPos(pos)
-                    # Si la fosse est un coup valide, jouer le coup et définir le drapeau sur True
-                    if pit in game.state.possibleMoves(1):
-                        curent_player = game.state.doMove(1, pit)
-                        move_made = True
-                        break
+            returnedPit = game.state.playFoss()
+            # Si la fosse est un coup valide, jouer le coup et définir le drapeau sur True
+            if returnedPit['fosse'] in game.state.possibleMoves(1):
+                 current_player = game.state.doMove(1, returnedPit['fosse'] )
+                 move_made = True
+                 break
             # Pause de la boucle de jeu pendant un court moment pour permettre au ordinateur de traiter les événements
-            pygame.time.delay(50)
-            
+            time.sleep(50)
         # Retourner le joueur suivant
-        return curent_player
+        return current_player
 
 
     def computerTurn(self, game, play, depth = 8):
@@ -58,15 +31,15 @@ class Play:
             player_2_four = all(game.state.board[x] == 4 for x in game.state.player_2_pits)
             
             if player_1_four and player_2_four:
-              curent_player = game.state.doMove(2, 'J')
+              current_player = game.state.doMove(2, 'J')
             
             else:  
               best_node = play.minmaxAlphaBetaPruning( game, 2, depth, -math.inf, math.inf)
               # Jouer le coup et récupérer l'identifiant du joueur suivant
-              curent_player = game.state.doMove(2, best_node[1])
+              current_player = game.state.doMove(2, best_node[1])
             
         # Retourner le joueur suivant et l'état du jeu    
-        return curent_player, game
+        return current_player, game
 
     def minmaxAlphaBetaPruning(self, game, player, depth, alpha, beta):
         # Si la profondeur de recherche atteint zéro ou si le jeu est terminé, 
