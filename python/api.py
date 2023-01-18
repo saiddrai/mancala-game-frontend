@@ -23,8 +23,9 @@ def hello_world():
 
 @app.route('/mancala', methods=['POST'])
 def playFoss():
-    print(request.get_json())
-    return request.get_json()
+    choosedPit = request.get_json()
+    print(choosedPit['fosse'])
+    return choosedPit
 
 
 app.run()

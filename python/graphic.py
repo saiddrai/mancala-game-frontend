@@ -7,7 +7,7 @@ import time
 pygame.init()
 
 # create a font object.
-font = pygame.font.Font('arial.ttf', 30)
+font = pygame.font.Font('mancala-game-frontend\python\\assets\Poppins\Poppins-Medium.ttf', 30)
 # Set the window size
 WIDTH, HEIGHT = (1300, 700)
 
