@@ -47,7 +47,6 @@ function App() {
       gameOver: gameOver,
       winner: winner,
     };
-    console.log(fosse);
     axios
       .post("http://localhost:5000/mancala", {
         player: turn,
@@ -59,7 +58,10 @@ function App() {
         gameOver: gameOver,
         winner: winner,
       })
-      .then((response) => {})
+      .then((response) => {
+        console.log(response);
+        console.log("first");
+      })
       .catch((error) => {
         console.log(error);
       });

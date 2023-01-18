@@ -9,8 +9,8 @@ class Game:
 
     def gameOver(self):  
         # Vérifie si l'un des joueurs n'a plus de graines dans ses trous
-        player_1_empty = all(self.state.board[x] == 0 for x in self.state.player_1_pits)
-        player_2_empty = all(self.state.board[x] == 0 for x in self.state.player_2_pits)
+        player_1_empty = all(self.state.board[x] == 0 for x in self.state.pits1)
+        player_2_empty = all(self.state.board[x] == 0 for x in self.state.pits2)
         # Si le joueur 1 gagne
         if player_1_empty:
             for x in self.state.player_2_pits:
@@ -39,4 +39,4 @@ class Game:
 
     def evaluate(self):
         # Estimation du gain
-        return self.state.board[1] - self.state.board[2]
+        return self.state.board['Goal1'] - self.state.board['Goal2']

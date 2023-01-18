@@ -52,13 +52,13 @@ class MancalaBoard:
           
         # if the next pit doesn't contain a stone, we will take all the seeds i the opposite pit and add it to the player goal
         if player == 1 and pit in self.pits1 and self.board[pit] == 1:
-            oppositePosition = self.oppositePit[pit]
+            oppositePosition = self.opposite_pit[pit]
             self.board['Goal1'] += self.board[oppositePosition]+1
             self.board[oppositePosition] = 0
             self.board[pit] = 0
 
         if player == 2 and pit in self.pits2 and self.board[pit] == 1:
-            oppositePosition = self.oppositePit[pit]
+            oppositePosition = self.opposite_pit[pit]
             self.board['Goal2'] += self.board[oppositePosition]+1
             self.board[oppositePosition] = 0 
             self.board[pit] = 0

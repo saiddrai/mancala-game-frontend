@@ -10,7 +10,7 @@ draw = Drawer()
 # Run the game loop
 running = True
 test = Play()
-game = Game(1)
+# game = Game(1)
 player = 1
 while (not game.gameOver()):
     if (player == 1):

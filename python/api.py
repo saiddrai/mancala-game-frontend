@@ -1,5 +1,11 @@
 from flask import Flask, request
 from flask_cors import CORS
+from game import Game
+
+from play import Play
+from game import Game
+import time
+
 
 
 PORT = 5000
@@ -23,9 +29,25 @@ def hello_world():
 
 @app.route('/mancala', methods=['POST'])
 def playFoss():
-    choosedPit = request.get_json()
-    print(choosedPit['fosse'])
-    return choosedPit
+    data = request.get_json()
+    game = Game(data["player"])
+  
+    test = Play()
+    # game = Game(1)
+    player = 1
+    while (not game.gameOver()):
+        if (player == 1):            
+            player, newState = test.humanTurn(game, data["fosse"])
+        else:
+            player, newState = test.computerTurn(game, test)
+            
+            time.sleep(1)
+        
+    time.sleep(10)
+
+    print(newState)
+    
+    return game
 
 
 app.run()
