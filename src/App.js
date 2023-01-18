@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Modal from "./Modal";
 import axios from "axios";
 import { parse, stringify, toJSON, fromJSON } from "flatted";
+import Navbar from "./Navbar";
 
 function App() {
   const { parse, stringify, toJSON, fromJSON } = require("flatted");
@@ -71,6 +72,7 @@ function App() {
     fosseStyle + "bg-darkwood text-white h-36 flex items-center";
   return (
     <div className="  h-screen p-32 bg-primary  ">
+      <Navbar />
       <div className="bg-darkwood flex rounded-xl pr-2 pb-2 h-56 w-[60%] m-auto ">
         <div className=" bg-lightwood rounded-xl px-4 py-2  m-auto flex flex-row items-center justify-between  w-full h-full">
           <div className={` ${storeStyle} mb-10 `}>{store1}</div>
